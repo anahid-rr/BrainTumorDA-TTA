@@ -77,13 +77,9 @@ ProjectData/
 
 ## Scripts / Modules Explanation
 
-- train_baseline.ipynb – Implements and trains a basic CNN classifier without augmentation.
+- train_baseline – Implements and trains a basic CNN classifier without augmentation.
 
-- train_augmented.ipynb – Trains the CNN with real-time data augmentation to improve generalization.
-
-- visualize_results.ipynb – Plots training/validation curves, confusion matrices, and compares baseline vs augmented models.
-
-- utils.py (optional) – Helper functions for dataset preprocessing, visualization, and metrics.
+- train_augmented – Trains the CNN with real-time data augmentation to improve generalization.
 
 ## Sample Data / Dataset Access
 
