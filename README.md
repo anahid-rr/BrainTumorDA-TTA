@@ -39,7 +39,7 @@ This project addresses the critical challenge of domain shift in brain tumor cla
 ### Data Preparation
 
 #### Converting NIfTI to JPG (for BraTS data)
-Use the provided conversion script `convert_nii_to_jpg.py` in the notebook to convert MRI scans from NIfTI format to JPG:
+Use the provided conversion script `convert_nii_to_jpg.ipynb` in the notebook to convert MRI scans from NIfTI format to JPG:
 ```python
 # Example usage in notebook:
 # Convert BraTS .nii files to JPG
@@ -106,7 +106,7 @@ brain-tumor-domain-shift/
 
 ## Notebook Structure
 
-The main notebook `brain_tumor_classification.ipynb` contains the following sections:
+The main notebook `Mitigating_Domain_Shift_in_Brain_MRI(JPG)` contains the following sections:
 
 ### 1. **Imports and Setup**
 - Library imports
