@@ -1,98 +1,195 @@
-# BrainTumorDA-TTA
+# Brain Tumor MRI Classification with Domain Shift Robustness
 
-**MRI Brain Tumor Classification with CNN, Data Augmentation, and Planned Domain/Test-Time Adaptation**
+## Project Title
+**Mitigating Domain Shift in Brain MRI: A Robust Approach to Tumor Type and Grade Prediction**
 
----
+## Overview
+This project addresses the critical challenge of domain shift in brain tumor classification from MRI scans. While deep learning models achieve high accuracy in controlled research settings, they often fail when deployed across different hospitals due to variations in imaging equipment and protocols. We develop and test robust classification systems that maintain performance despite these variations.
 
-## Project Overview
+## Key Features
+- Two-stage classification: tumor type detection (glioma, meningioma, pituitary, no tumor) and grade assessment (LGG vs HGG)
+- Robust models tested under simulated domain shift conditions
+- Comparison of custom CNNs vs transfer learning with VGG16
+- Comprehensive evaluation framework for clinical deployment readiness
 
-This project aims to classify brain MRI images into four categories: **glioma tumor, meningioma tumor, pituitary tumor, and no tumor**. The initial phase focuses on implementing a **baseline CNN classifier** and improving robustness with **data augmentation**.  
+## Results Summary
+| Model | Task | Clean Accuracy | Domain Shift Accuracy | Robustness |
+|-------|------|----------------|----------------------|------------|
+| 3-Layer CNN | Tumor Type | 94.9% | 88.1% | -6.79% |
+| Fine-tuned VGG16 | Grade | 79.2% | 80.2% | +0.94% |
 
-In later stages, **Domain Adaptation (DA)** and **Test-Time Adaptation (TTA)** techniques will be incorporated to improve model generalization across different MRI domains and acquisition variations, aligning with the original research proposal.  
+## Dataset Requirements
+- **Tumor Type Classification**: Kaggle Brain Tumor MRI Dataset
+  - Download from: [Kaggle Brain Tumor Dataset](https://www.kaggle.com/datasets/)
+  - Classes: Glioma, Meningioma, Pituitary, No Tumor
+  - Total images: 7,023
+  
+- **Grade Classification**: BraTS 2019 & 2020
+  - Download from: [BraTS Challenge](https://www.med.upenn.edu/cbica/brats2020/)
+  - Classes: Low-grade Glioma (LGG), High-grade Glioma (HGG)
+  - Total patients: 704
 
-The project uses a **supervised learning approach**, with labeled MRI images organized into class-based directories. The current dataset is sourced from Kaggle and contains all four tumor classes needed for type classification.  
+## Installation
 
----
+### Prerequisites
+- Python 3.8+
+- Google Colab with T4 GPU (recommended) or local GPU
+- 8GB+ RAM
 
-## Repository Contents
-
-- `data/` – Placeholder for dataset organization (train, validation, test folders)  
-- `notebooks/` – Jupyter notebooks or Colab notebooks with training and evaluation code  
-- `models/` – Saved models (optional)  
-- `README.md` – This file  
-- `requirements.txt` – Python dependencies  
-
----
-
-## How to Run the Code
-
-1. Clone the repository:  
-
+### Setup
 ```bash
-git clone https://github.com/yourusername/BrainTumorDA-TTA.git
-cd BrainTumorDA-TTA
-```
-2. Install required libraries:
+# Clone repository
+git clone https://github.com/yourusername/brain-tumor-domain-shift.git
+cd brain-tumor-domain-shift
 
-```bash
+# Install dependencies
 pip install -r requirements.txt
 ```
 
-3. Upload your dataset to Google Drive (or local directory) with the following structure:
-
-```bash
-ProjectData/
-├─ BrainTumor/
-│  ├─ Training/
-│  │  ├─ glioma/
-│  │  ├─ meningioma/
-│  │  ├─ pituitary/
-│  │  └─ no_tumor/
-│  └─ Testing/
-│     ├─ glioma/
-│     ├─ meningioma/
-│     ├─ pituitary/
-│     └─ no_tumor/
+## Project Structure
+```
+brain-tumor-domain-shift/
+├── brain_tumor_classification.ipynb  # Main notebook with all code
+├── README.md                         # This file
+├── requirements.txt                  # Dependencies
+├── data/                            # Place datasets here
+│   ├── tumor_type/                  # Multi-class tumor dataset
+│   └── tumor_grade/                 # BraTS grade classification
 
 ```
-4. Open the notebook notebooks/train_baseline.ipynb or notebooks/train_augmented.ipynb in Google Colab.
 
-5. Update the dataset path variables (train_dir and test_dir) according to your setup.
+## Notebook Structure
 
-6. Run the cells to train the baseline CNN and the augmented CNN.
+The main notebook `brain_tumor_classification.ipynb` contains the following sections:
 
-## Dependencies / Libraries Used
+### 1. **Imports and Setup**
+- Library imports
+- GPU configuration
+- Random seed setting
 
-- Python 3.8+
+### 2. **Helper Functions**
+- Data preprocessing utilities
+- Visualization functions
+- Metrics calculation
 
-- TensorFlow 2.x
+### 3. **Data Loading and Preprocessing**
+- Dataset loading for both tasks
+- Train/validation/test splitting
+- Oversampling for class imbalance
+- Image normalization (224×224, [0,1] range)
 
-- NumPy
+### 4. **Model Architectures**
+- **Baseline CNN**: Simple 2-layer CNN
+- **3-Layer CNN**: Enhanced CNN with deeper architecture
+- **Baseline VGG16**: Frozen backbone with custom head
+- **Fine-tuned VGG16**: Unfrozen last 4 layers
 
-- Matplotlib
+### 5. **Training Functions**
+- Training loops with early stopping
+- Learning rate scheduling
+- Augmentation pipelines
 
-- scikit-learn
+### 6. **Experiments**
+- **Experiment 1**: Tumor type classification without augmentation
+- **Experiment 2**: Tumor type classification with augmentation
+- **Experiment 3**: Grade classification without augmentation
+- **Experiment 4**: Grade classification with domain shift
 
-- You can install all dependencies using the included requirements.txt.
+### 7. **Model Comparisons**
+- Side-by-side confusion matrices
+- ROC curves
+- Performance metrics tables
+- Training history plots
 
-## Scripts / Modules Explanation
+### 8. **Domain Shift Evaluation**
+- Enhanced augmentation testing
+- Robustness analysis
+- Performance degradation measurement
 
-- train_baseline – Implements and trains a basic CNN classifier without augmentation.
+## Usage
 
-- train_augmented – Trains the CNN with real-time data augmentation to improve generalization.
+### Running in Google Colab
+1. Upload the notebook to Google Colab
+2. Mount your Google Drive containing the datasets:
+```python
+from google.colab import drive
+drive.mount('/content/drive')
+```
+3. Update data paths in the notebook
+4. Run all cells sequentially
 
-## Sample Data / Dataset Access
+### Running Locally
+1. Open the notebook in Jupyter:
+```bash
+jupyter notebook brain_tumor_classification.ipynb
+```
+2. Update data paths to point to your local directories
+3. Run cells sequentially
 
-The project uses a Kaggle dataset for brain tumor classification containing four categories. If you do not include the data in the repository due to size restrictions, you can download it from:
+### Key Parameters to Modify
+```python
+# In the notebook, you can adjust these parameters:
 
-Kaggle Brain Tumor Dataset
+# Data settings
+IMG_SIZE = (224, 224)
+BATCH_SIZE = 32
+VAL_SPLIT = 0.2
 
-After downloading, organize it according to the folder structure shown above.
+# Training settings
+EPOCHS = 15  # for CNNs
+EPOCHS_VGG = 10  # for VGG models
+LEARNING_RATE = 1e-3  # for CNNs
+LEARNING_RATE_FINETUNE = 1e-5  # for VGG fine-tuning
 
-## Metrics & Visualization
+# Augmentation settings (modify for different domain shift levels)
+augmentation_params = {
+    'rotation': 0.1,
+    'zoom': 0.1,
+    'brightness': 0.2,
+    'contrast': 0.2,
+    'noise': 0.02
+}
+```
 
-- Training and validation accuracy/loss curves
+## Reproducing Results
 
-- Confusion matrices for both baseline and augmented models
+1. **Prepare Data**: Organize datasets in the required folder structure
+2. **Run Baseline**: Execute cells for baseline models without augmentation
+3. **Run Enhanced Models**: Execute cells with augmentation enabled
+4. **Domain Shift Testing**: Run the domain shift evaluation section
+5. **Generate Visualizations**: Execute comparison cells for figures
 
-- Preliminary results indicate reduced overfitting with augmentation and improved validation performance
+## Key Findings
+- Models with 92.6% clean accuracy can drop to 77.8% under domain shift
+- 3-layer CNN maintains better robustness than baseline (88.1% vs 77.8%)
+- Fine-tuning VGG16 improves grade classification from 64.2% to 79.2%
+- Domain shift testing is essential for clinical deployment readiness
+
+## Citation
+If you use this code in your research, please cite:
+```bibtex
+@article{brain_tumor_2024,
+  title={Mitigating Domain Shift in Brain MRI: A Robust Approach to Tumor Type and Grade Prediction},
+  author={Your Name},
+  year={2024}
+}
+```
+
+## Troubleshooting
+
+**Common Issues:**
+
+1. **GPU not detected**: Ensure CUDA and cuDNN are properly installed
+2. **Memory errors**: Reduce batch size or image size
+3. **Data path errors**: Update paths in notebook to match your directory structure
+4. **Package conflicts**: Create a fresh virtual environment
+
+## Future Work
+- Extend to 3D volumetric analysis
+- Implement uncertainty quantification
+- Add attention mechanisms
+- Develop medical-specific pretraining
+
+## License
+
+Licensed under the Apache License, Version 2.0.
