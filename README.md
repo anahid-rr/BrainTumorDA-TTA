@@ -43,7 +43,7 @@ Use the provided conversion script `convert_nii_to_jpg.ipynb` in the notebook to
 ```python
 # Example usage in notebook:
 # Convert BraTS .nii files to JPG
-python convert_nii_to_jpg.py --input_dir /path/to/brats/data --output_dir /path/to/jpg/output
+python convert_nii_to_jpg.ipynb --input_dir /path/to/brats/data --output_dir /path/to/jpg/output
 ```
 
 The conversion script:
@@ -167,7 +167,7 @@ drive.mount('/content/drive')
 ### Running Locally
 1. Open the notebook in Jupyter:
 ```bash
-jupyter notebook brain_tumor_classification.ipynb
+jupyter notebook Mitigating_Domain_Shift_in_Brain_MRI(JPG).ipynb
 ```
 2. Update data paths to point to your local directories
 3. Run cells sequentially
@@ -189,11 +189,12 @@ LEARNING_RATE_FINETUNE = 1e-5  # for VGG fine-tuning
 
 # Augmentation settings (modify for different domain shift levels)
 augmentation_params = {
+    'RandomFlip':"horizontal"
     'rotation': 0.1,
     'zoom': 0.1,
-    'brightness': 0.2,
-    'contrast': 0.2,
-    'noise': 0.02
+    'brightness': 0.4,
+    'contrast': 0.3,
+    'noise': 0.03
 }
 ```
 
@@ -211,15 +212,6 @@ augmentation_params = {
 - Fine-tuning VGG16 improves grade classification from 64.2% to 79.2%
 - Domain shift testing is essential for clinical deployment readiness
 
-## Citation
-If you use this code in your research, please cite:
-```bibtex
-@article{brain_tumor_2024,
-  title={Mitigating Domain Shift in Brain MRI: A Robust Approach to Tumor Type and Grade Prediction},
-  author={Your Name},
-  year={2024}
-}
-```
 
 ## Troubleshooting
 
