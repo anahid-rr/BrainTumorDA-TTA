@@ -1,7 +1,31 @@
-tensorflow==2.15.0
-numpy
-matplotlib
-scikit-learn
-pandas
-opencv-python
-jupyter
+# Core ML/DL frameworks
+tensorflow==2.12.0
+tensorflow-gpu==2.12.0
+
+# Data processing
+numpy==1.23.5
+pandas==1.5.3
+opencv-python==4.7.0.72
+Pillow==9.5.0
+scikit-learn==1.2.2
+imbalanced-learn==0.10.1
+
+# Visualization
+matplotlib==3.7.1
+seaborn==0.12.2
+plotly==5.14.1
+
+# Medical imaging (if using DICOM/NIfTI)
+nibabel==5.1.0
+SimpleITK==2.2.1
+
+# Utilities
+tqdm==4.65.0
+h5py==3.8.0
+scipy==1.10.1
+
+# For Jupyter notebooks
+jupyter==1.0.0
+ipykernel==6.22.0
+notebook==6.5.4
+ipywidgets==8.0.6
