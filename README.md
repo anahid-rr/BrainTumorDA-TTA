@@ -19,15 +19,61 @@ This project addresses the critical challenge of domain shift in brain tumor cla
 | Fine-tuned VGG16 | Grade | 79.2% | 80.2% | +0.94% |
 
 ## Dataset Requirements
-- **Tumor Type Classification**: Kaggle Brain Tumor MRI Dataset
-  - Download from: [Kaggle Brain Tumor Dataset](https://www.kaggle.com/datasets/)
-  - Classes: Glioma, Meningioma, Pituitary, No Tumor
-  - Total images: 7,023
-  
-- **Grade Classification**: BraTS 2019 & 2020
-  - Download from: [BraTS Challenge](https://www.med.upenn.edu/cbica/brats2020/)
-  - Classes: Low-grade Glioma (LGG), High-grade Glioma (HGG)
-  - Total patients: 704
+
+### Tumor Type Classification
+- **Dataset**: Brain Tumor MRI Dataset (Kaggle)
+- **Download Link**: [https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset](https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset)
+- **Classes**: Glioma, Meningioma, Pituitary, No Tumor
+- **Total Images**: 7,023 JPG images
+- **Format**: JPG (224×224 pixels)
+
+### Grade Classification  
+- **Dataset**: BraTS 2019 & 2020 (Brain Tumor Segmentation Challenge)
+- **BraTS 2019**: [https://www.med.upenn.edu/cbica/brats2019/data.html](https://www.med.upenn.edu/cbica/brats2019/data.html)
+- **BraTS 2020**: [https://www.med.upenn.edu/cbica/brats2020/data.html](https://www.med.upenn.edu/cbica/brats2020/data.html)
+- **Classes**: Low-grade Glioma (LGG), High-grade Glioma (HGG)
+- **Total Patients**: 704 (combined)
+- **Original Format**: NIfTI (.nii.gz)
+- **Required Format**: JPG
+
+### Data Preparation
+
+#### Converting NIfTI to JPG (for BraTS data)
+Use the provided conversion script `convert_nii_to_jpg.py` in the notebook to convert MRI scans from NIfTI format to JPG:
+```python
+# Example usage in notebook:
+# Convert BraTS .nii files to JPG
+python convert_nii_to_jpg.py --input_dir /path/to/brats/data --output_dir /path/to/jpg/output
+```
+
+The conversion script:
+- Extracts 2D slices from 3D NIfTI volumes
+- Normalizes intensities to [0, 255]
+- Saves as JPG images (224×224 pixels)
+- Preserves patient IDs and labels
+
+#### Directory Structure After Preparation
+```
+data/
+├── tumor_type/
+│   ├── Training/
+│   │   ├── glioma/
+│   │   ├── meningioma/
+│   │   ├── pituitary/
+│   │   └── notumor/
+│   └── Testing/
+│       ├── glioma/
+│       ├── meningioma/
+│       ├── pituitary/
+│       └── notumor/
+└── tumor_grade/
+    ├── train/
+    │   ├── LGG/
+    │   └── HGG/
+    └── test/
+        ├── LGG/
+        └── HGG/
+```
 
 ## Installation
 
@@ -49,7 +95,7 @@ pip install -r requirements.txt
 ## Project Structure
 ```
 brain-tumor-domain-shift/
-├── brain_tumor_classification.ipynb  # Main notebook with all code
+├── Mitigating_Domain_Shift_in_Brain_MRI(JPG).ipynb  # Main notebook with all code
 ├── README.md                         # This file
 ├── requirements.txt                  # Dependencies
 ├── data/                            # Place datasets here
